@@ -19,5 +19,5 @@ def get_nnz(path):
         A = scipy.io.mmread(path)
         return A.nnz
     except Exception as e:
-        print(f"Errore leggendo {path}: {e}")
+        print(f"Error reading {path}: {e}")
         return float('inf')  # Metti in fondo i file problematici

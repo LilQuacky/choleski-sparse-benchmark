@@ -30,21 +30,20 @@ class Runner:
         matrix_files = sorted(matrix_paths, key=get_nnz)
 
         if not matrix_files:
-            print("Nessuna matrice trovata nel path specificato")
+            print("No matrices found in specified path")
             return
 
         for fname in matrix_files:
-            full_path = os.path.join(self.path, fname)
-            self.process_matrix(full_path)
+            self.process_matrix(fname)
 
-        print(f"\nLog scritti nel file: {self.logger.log_file}\n")
+        print(f"\nLog file: {self.logger.log_file}\n")
 
     def process_matrix(self, matrix_path: str):
         gc.collect()
         matrix_name = os.path.basename(matrix_path)
 
         try:
-            print(f"\nCaricamento matrice: {matrix_name}")
+            print(f"\nLoading matrix: {matrix_name}")
 
             t0 = time.perf_counter()
             mem0 = measure_memory_mb()
@@ -63,6 +62,7 @@ class Runner:
             b = A_csr @ xe
 
             # Decomposizione (fattorizzazione)
+            print(f"Decomposing matrix: {matrix_name}")
             gc.collect()
             mem2 = measure_memory_mb()
             t2 = time.perf_counter()
@@ -74,6 +74,7 @@ class Runner:
             decomp_peak = get_peak_memory_mb()
 
             # Risoluzione
+            print(f"Solving matrix: {matrix_name}")
             gc.collect()
             mem4 = measure_memory_mb()
             t4 = time.perf_counter()
@@ -105,9 +106,9 @@ class Runner:
                 "relativeError": f"{rel_err:.2e}"
             }
 
-            print(f"Completato: {matrix_name} | tempo totale: {load_time + decomp_time + solve_time:.4f}s")
+            print(f"Completed: {matrix_name} | total time: {load_time + decomp_time + solve_time:.4f}s")
             self.logger.write_row(row)
 
         except Exception as e:
-            print(f"Errore su {matrix_name}: {e}")
+            print(f"Error in {matrix_name}: {e}")
 
