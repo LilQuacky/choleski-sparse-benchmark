@@ -1,4 +1,4 @@
-from utils.Runner import Runner
+from python.utils.Runner import Runner
 
 runner = Runner("matrices/", "runs/")
 runner.run()

@@ -10,8 +10,8 @@ from datetime import datetime
 from sksparse.cholmod import cholesky
 import gc
 
-from utils.CSVLogger import CSVLogger
-from utils.functions import measure_memory_mb, get_peak_memory_mb, get_nnz
+from python.utils.CSVLogger import CSVLogger
+from python.utils.functions import measure_memory_mb, get_peak_memory_mb, get_nnz
 
 
 class Runner:
@@ -61,7 +61,6 @@ class Runner:
             A_csc = A.tocsc()
             b = A_csr @ xe
 
-            # Decomposizione (fattorizzazione)
             print(f"Decomposing matrix: {matrix_name}")
             gc.collect()
             mem2 = measure_memory_mb()
@@ -73,7 +72,6 @@ class Runner:
             decomp_mem = mem3 - mem2
             decomp_peak = get_peak_memory_mb()
 
-            # Risoluzione
             print(f"Solving matrix: {matrix_name}")
             gc.collect()
             mem4 = measure_memory_mb()
@@ -87,7 +85,6 @@ class Runner:
 
             rel_err = np.linalg.norm(x - xe, ord=2) / np.linalg.norm(xe, ord=2)
 
-            # Costruzione riga da loggare
             row = {
                 "os": platform.system(),
                 "timestamp": datetime.now().isoformat(timespec="seconds"),
