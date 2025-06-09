@@ -176,7 +176,9 @@ cython_debug/
 # input/output folders
 matrices/
 runs/
+runs_mean/
 output_plots/
+output_plots_mean/
 .idea/
 
 
