@@ -15,12 +15,26 @@ from python.utils.functions import measure_memory_mb, get_peak_memory_mb, get_nn
 
 
 class Runner:
+    """
+    Class to run Cholesky decomposition on a set of .mtx matrices.
+    In particular, given the matrix, it solves the system Ax = b using Cholesky decomposition, with b such that the
+    exact solution xe is [1 1 1 1...]. A log file is created with times, relative error and memory usage for each
+    matrix.
+    """
 
-    def __init__(self, matrices_path: str = '.', logs_path: str = ""):
+    def __init__(self, matrices_path: str = './', logs_path: str = "./") -> None:
+        """
+        Runner constructor.
+        :param matrices_path: path to the matrices folder
+        :param logs_path: path to save the logs to
+        """
         self.path = matrices_path
         self.logger = CSVLogger(platform.system().lower() + "_python", logs_path)
 
-    def run(self):
+    def run(self) -> None:
+        """
+        Method to start the Runner
+        """
         matrix_paths = [
             os.path.join(self.path, f)
             for f in os.listdir(self.path)
@@ -38,7 +52,11 @@ class Runner:
 
         print(f"\nLog file: {self.logger.log_file}\n")
 
-    def process_matrix(self, matrix_path: str):
+    def process_matrix(self, matrix_path: str) -> None:
+        """
+        Method to execute Cholesky decomposition on a single matrix.
+        :param matrix_path: Path to the matrix file
+        """
         gc.collect()
         matrix_name = os.path.basename(matrix_path)
 
