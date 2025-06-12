@@ -11,8 +11,8 @@ function runner()
     addpath(fullfile(pwd, 'utils'));
     osName = system_info();
 
-    matrixFolder = 'matrices';
-    resultsFolder = 'runs';
+    matrixFolder = '../matrices';
+    resultsFolder = '../runs';
 
     if ~exist(resultsFolder, 'dir')
         mkdir(resultsFolder);
